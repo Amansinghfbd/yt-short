@@ -17,22 +17,22 @@ const VideoPlayer = ({ videoData }) => {
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const videoRef = useRef(null);
-
   const [scrollPosition, setScrollPosition] = useState(0);
-
   const [isHeartFilled, setIsHeartFilled] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
   const handleMuteClick = () => {
-    setIsMuted(!isMuted);
+    setIsMuted(!isMuted);                   //For Mute Button
   };
+
   const handleHeartClick = () => {
-    setIsHeartFilled(!isHeartFilled);
+    setIsHeartFilled(!isHeartFilled);       //For Like button
   };
+
   const handleScrollUp = () => {
     setScrollPosition((prevPosition) => prevPosition - window.innerHeight);
     window.scrollBy({
-      top: -window.innerHeight,
+      top: -window.innerHeight,             //For Scroll Up Functioning
       behavior: "smooth",
     });
   };
@@ -40,7 +40,7 @@ const VideoPlayer = ({ videoData }) => {
   const handleScrollDown = () => {
     setScrollPosition((prevPosition) => prevPosition + window.innerHeight);
     window.scrollBy({
-      top: window.innerHeight,
+      top: window.innerHeight,              //For Scroll Down Functioning
       behavior: "smooth",
     });
   };
@@ -48,7 +48,7 @@ const VideoPlayer = ({ videoData }) => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsPlaying(entry.isIntersecting);
+        setIsPlaying(entry.isIntersecting);       //For Playing Video
       },
       { threshold: 0.5 }
     );
@@ -66,7 +66,7 @@ const VideoPlayer = ({ videoData }) => {
   }, []);
 
   useEffect(() => {
-    if (videoRef.current) {
+    if (videoRef.current) {                         //For Video Time Update
       const handleTimeUpdate = () => {
         setCurrentTime(videoRef.current.currentTime);
         setDuration(videoRef.current.duration);
@@ -83,7 +83,7 @@ const VideoPlayer = ({ videoData }) => {
     }
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {                                   //For Update Video-Info
     if (videoData) {
       setTitle(videoData.title);
     }
@@ -95,7 +95,7 @@ const VideoPlayer = ({ videoData }) => {
     }
   }, [videoData]);
 
-  useEffect(() => {
+  useEffect(() => {                                   //For Update Video-Play
     if (isPlaying) {
       const currentVideoRef = videoRef.current;
       if (currentVideoRef) {
@@ -122,89 +122,89 @@ const VideoPlayer = ({ videoData }) => {
   return (
     <div className="video-player">
       <div className="video-player_Progress1">
-        
-
         <div className="video-container">
           <div className="video">
-            
-          <div className="progress-bar">
-          <div
-            className="progress"
-            style={{
-              width: `${(currentTime / duration) * 100}%`,
-            }}
-          />
-        </div>
 
-            <video
-              ref={videoRef}
-              className="video"
-              autoPlay={isPlaying}
-              loop
-              muted={isMuted}
-              src={videoData?.source}
-              type="video/mp4"
-            />
-
-            <div className="form">
-                <div className="time text" title="time">
-                    {formatTime(currentTime)} / {formatTime(duration)}
-                </div>
-                <div className="title text" title="title">
-                    {title}
-                </div>
-                <div className="name text" title="name">
-                    {name}
-                </div>
+            <div className="progress-bar">
+              <div
+                className="progress"
+                style={{
+                  width: `${(currentTime / duration) * 100}%`,
+                }}
+              />
             </div>
 
+            <div style={{ position: "relative" }}>
+              <video
+                ref={videoRef}
+                className="video"
+                autoPlay={isPlaying}
+                loop
+                muted={isMuted}
+                src={videoData?.source}
+                type="video/mp4"
+              />
+
+              <div className="controls2">
+                <button onClick={handlePlayPause} className="control-buttons">
+                  {isPlaying ? (
+                    <CiPause1 fontSize={"35"} />
+                  ) : (
+                    <CiPlay1 fontSize={"35"} />
+                  )}
+                </button>
+                <button
+                  onClick={handleScrollUp}
+                  className="control-buttons"
+                  title="Scroll Up"
+                >
+                  <CiCircleChevUp fontSize={"35"} />
+                </button>
+                <button
+                  onClick={handleScrollDown}
+                  className="control-buttons"
+                  title="Scroll Down"
+                >
+                  <CiCircleChevDown fontSize={"35"} />
+                </button>
+                <button
+                  onClick={handleHeartClick}
+                  className="control-buttons"
+                  title="Like"
+                >
+                  <CiHeart
+                    color={isHeartFilled ? "red" : "currentColor"}
+                    fontSize={"35"}
+                  />
+                </button>
+                <button
+                  onClick={handleMuteClick}
+                  className="control-buttons"
+                  title="Mute"
+                >
+                  {isMuted ? (
+                    <CiVolumeMute fontSize={"35"} />
+                  ) : (
+                    <CiVolumeHigh fontSize={"35"} />
+                  )}
+                </button>
+              </div>
+
+              <div className="info">
+                <div className="name text" title="name">
+                  {name}
+                </div>
+                <div className="title text" title="title">
+                  {title}
+                </div>
+                <div className="time text" title="time">
+                  {formatTime(currentTime)} / {formatTime(duration)}
+                </div>
+              </div>
+              
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="controls2">
-          <button onClick={handlePlayPause} className="control-buttons">
-            {isPlaying ? (
-              <CiPause1 fontSize={"35"} />
-            ) : (
-              <CiPlay1 fontSize={"35"} />
-            )}
-          </button>
-        <button
-          onClick={handleScrollUp}
-          className="control-buttons"
-          title="Scroll Up"
-        >
-          <CiCircleChevUp fontSize={"35"} />
-        </button>
-        <button
-          onClick={handleScrollDown}
-          className="control-buttons"
-          title="Scroll Down"
-        >
-          <CiCircleChevDown fontSize={"35"} />
-        </button>
-        <button
-          onClick={handleHeartClick}
-          className="control-buttons"
-          title="Like"
-        >
-          <CiHeart
-            color={isHeartFilled ? "red" : "currentColor"}
-            fontSize={"35"}
-          />
-        </button>
-        <button
-          onClick={handleMuteClick}
-          className="control-buttons"
-          title="Mute"
-        >
-          {isMuted ? (
-            <CiVolumeMute fontSize={"35"} />
-          ) : (
-            <CiVolumeHigh fontSize={"35"} />
-          )}
-        </button>
       </div>
     </div>
   );

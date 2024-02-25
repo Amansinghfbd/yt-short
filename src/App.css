@@ -2,8 +2,16 @@
   position: relative;
   display: flex;
   align-items: center;
-  flex-direction: row;
+
   justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .video-player {
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+  }
 }
 
 .video-player_Progress1 {
@@ -16,8 +24,13 @@ video {
   height: 100vh;
   object-fit: fill;
   min-height: 100%;
-  border-radius: 20px;
   margin-bottom: 10px;
+}
+
+.info {
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
 }
 
 .video-container {
@@ -64,13 +77,12 @@ video {
 }
 
 .progress-bar {
-  width: 485px;
+  width: inherit;
   height: 5px;
-  top: 5px;
-  left: 10px;
   background-color: #ccc;
   position: relative;
   border-radius: 200px;
+  z-index: 1;
 }
 
 .progress {
@@ -82,12 +94,11 @@ video {
 }
 
 .controls2 {
-  width: 50%;
   position: absolute;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+
   flex-direction: column;
   right: 10px;
+  bottom: 40px;
   gap: 10px;
 }
